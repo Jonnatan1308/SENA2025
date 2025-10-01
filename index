@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguro tu Plata - App Móvil</title>
+    
+    <style>
+        /* Estilos Globales Integrados (Corrección de Colores) */
+        :root {
+            --color-primary: #192DC2; /* Azul Seguro tu Plata */
+            --color-secondary: #FFFFFF; /* Blanco */
+            --color-text: #333333;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            --color-background: #f4f4f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--color-text); /* Color de texto por defecto */
+        }
+
+        body {
+            background-color: var(--color-background);
+            min-height: 100vh;
+        }
+
+        /* Contenedor principal para simular la vista del móvil */
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: var(--color-secondary);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Estilos específicos para enlaces y etiquetas dentro de las vistas */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* Estilos de botones primarios (Azul #192DC2) */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-primary);
+            color: var(--color-secondary); /* Texto blanco para contraste */
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #14239e;
+        }
+
+        /* Estilos de inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            color: var(--color-text); /* Asegura que el texto del input tenga color */
+        }
+
+        .form-group input:focus {
+            border-color: var(--color-primary);
+        }
+
+        /* Estilo para las "ventanas" de la aplicación */
+        .app-screen {
+            padding: 20px;
+            display: none;
+            min-height: 100vh;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: var(--color-secondary);
+        }
+
+        .app-screen.active {
+            display: block;
+            z-index: 10;
+        }
+
+        /* Encabezado fijo (Azul #192DC2) */
+        .header {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Margen negativo para que se extienda más allá del padding de la pantalla */
+            margin: -20px -20px 20px -20px; 
+        }
+        .header * {
+            color: var(--color-secondary); /* Fuerza el texto del header a ser blanco */
+        }
+        .header h2 {
+            font-weight: 500;
+        }
+        
+        /* Estilo para el saldo en el dashboard */
+        .balance-card {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .balance-card * {
+             color: var(--color-secondary); /* Fuerza todo el texto del balance a ser blanco */
+        }
+        
+        .action-btn {
+            background: var(--color-background); 
+            border: none; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: center; 
+            width: 45%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .action-btn:hover {
+             background: #e0e0e5; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+
+        <section id="login-register-screen" class="app-screen active">
+            <h1 style="color: var(--color-primary); text-align: center; margin-bottom: 40px; padding-top: 50px;">Seguro tu Plata</h1>
+            <p style="text-align: center; margin-bottom: 30px; font-weight: 600;">👋 Bienvenido.</p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="celular">Número de Celular</label>
+                    <input type="tel" id="celular" placeholder="Ej: 3001234567" required pattern="[0-9]{10}">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Mínimo 8 caracteres" required minlength="8">
+                </div>
+                <button type="submit" class="btn-primary">Ingresar</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 20px;">
+                ¿No tienes cuenta? <a href="#" onclick="alert('Funcionalidad de registro simulada')">Regístrate aquí</a>
+            </p>
+        </section>
+
+        <section id="dashboard-screen" class="app-screen">
+            <header class="header">
+                <div style="font-size: 1.5em;">👤</div> 
+                <h2>Dashboard</h2>
+                <div style="font-size: 1.5em;" onclick="alert('Notificaciones')">🔔</div> 
+            </header>
+
+            <div class="balance-card">
+                <p>SALDO ACTUAL</p>
+                <h1 id="current-balance">$ 0.00 COP</h1>
+                <p style="font-size: 0.9em;">(Disponible para retiro)</p>
+            </div>
+
+            <div class="actions-grid" style="display: flex; justify-content: space-around; margin-bottom: 40px;">
+                <button class="action-btn" onclick="showScreen('retirar-screen')">
+                    <div style="font-size: 2em; color: var(--color-primary);">⬇️</div>
+                    <p style="margin-top: 5px; font-weight: 600;">Retirar</p>
+                </button>
+                <button class="action-btn" onclick="alert('Funcionalidad de Transferir')">
+                    <div style="font-size: 2em; color: var(--color-primary);">➡️</div>
+                    <p style="margin-top: 5px; font-weight: 600;">Transferir</p>
+                </button>
+            </div>
+
+            <h3 style="margin-bottom: 15px;">Movimientos Recientes</h3>
+            <div id="recent-movements-list">
+                <p style="text-align: center; color: #888; padding: 15px;">No hay movimientos recientes.</p>
+            </div>
+            
+            <button class="btn-primary" style="margin-top: 20px; background-color: #6c757d;" onclick="showScreen('movimientos-screen')">Ver Historial Completo</button>
+        </section>
+
+        <section id="movimientos-screen" class="app-screen">
+            <header class="header">
+                <button onclick="showScreen('dashboard-screen')" style="background: none; border: none; font-size: 1.5em;">&larr;</button>
+                <h2>Historial de Movimientos</h2>
+                <div></div>
+            </header>
+
+            <div class="filters" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="date" style="padding: 8px; border-radius: 5px; flex-grow: 1;">
+                <select style="padding: 8px; border-radius: 5px;">
+                    <option>Todos</option>
+                    <option>Retiro</option>
+                    <option>Transferencia</option>
+                </select>
+            </div>
+
+            <ul id="full-movements-list" style="list-style: none;">
+                </ul>
+        </section>
+
+        <section id="retirar-screen" class="app-screen">
+            <header class="header">
+                <button onclick="showScreen('dashboard-screen')" style="background: none; border: none; font-size: 1.5em;">&larr;</button>
+                <h2>Retirar Fondos</h2>
+                <div></div>
+            </header>
+
+            <form id="retirar-form">
+                <div class="form-group">
+                    <label for="monto-retiro">Monto a Retirar (COP)</label>
+                    <input type="number" id="monto-retiro" placeholder="Ej: 50000" required min="1000">
+                </div>
+                
+                <div class="fee-calculator" style="padding: 15px; background: #f9f9f9; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee;">
+                    <p>Comisión (10%): <span id="fee-display" style="font-weight: bold; color: var(--color-danger);">$ 0.00</span></p>
+                    <p>Total Débito: <span id="total-debit-display" style="font-weight: bold; color: var(--color-primary);">$ 0.00</span></p>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Saldo disponible: <span id="available-balance-retiro">$ 0.00</span></p>
+                </div>
+
+                <button type="submit" class="btn-primary">Confirmar Retiro</button>
+            </form>
+        </section>
+
+    </div>
+    
+    <script>
+        // Lógica JavaScript (Integrada)
+
+        const APP_NAME = "Seguro tu Plata";
+        const COMMISSION_RATE = 0.10; // 10%
+        let userBalance = 500000; // Saldo inicial simulado: $500,000 COP
+        let transactions = [
+            { type: 'Depósito', amount: 500000, date: '2024-01-01', fee: 0, id: 1 },
+        ]; // Historial de transacciones
+
+        /**
+         * Función para cambiar la pantalla activa
+         * @param {string} screenId - ID del <section> a mostrar
+         */
+        function showScreen(screenId) {
+            document.querySelectorAll('.app-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            
+            // Lógica de actualización según la pantalla
+            if (screenId === 'dashboard-screen') {
+                updateDashboard();
+            }
+            if (screenId === 'retirar-screen') {
+                document.getElementById('available-balance-retiro').textContent = formatCurrency(userBalance);
+                document.getElementById('monto-retiro').value = '';
+                document.getElementById('fee-display').textContent = formatCurrency(0);
+                document.getElementById('total-debit-display').textContent = formatCurrency(0);
+            }
+            if (screenId === 'movimientos-screen') {
+                 updateFullMovementsList();
+            }
+        }
+
+        /**
+         * Formatea un número a la moneda local (COP).
+         */
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount);
+        }
+
+        /**
+         * Actualiza la información del Dashboard.
+         */
+        function updateDashboard() {
+            document.getElementById('current-balance').textContent = formatCurrency(userBalance);
+            
+            const recentList = document.getElementById('recent-movements-list');
+            recentList.innerHTML = ''; 
+            
+            const recentTxns = transactions.slice().reverse().slice(0, 3); 
+            
+            if (recentTxns.length === 0) {
+                recentList.innerHTML = '<p style="text-align: center; color: #888; padding: 15px;">No hay movimientos recientes.</p>';
+                return;
+            }
+
+            recentTxns.forEach(txn => {
+                const item = document.createElement('div');
+                const sign = txn.type === 'Depósito' ? '+' : '-';
+                const color = txn.type === 'Depósito' ? 'var(--color-success)' : 'var(--color-danger)';
+                const feeDisplay = txn.fee > 0 ? `<small style="color: #666;"> (Comisión: ${formatCurrency(txn.fee)})</small>` : '';
+
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #eee;">
+                        <div>
+                            <p style="font-weight: 600;">${txn.type}</p>
+                            <small style="color: #666;">${new Date(txn.date).toLocaleDateString()}</small>
+                            ${feeDisplay}
+                        </div>
+                        <span style="color: ${color}; font-weight: 600;">${sign} ${formatCurrency(txn.amount)}</span>
+                    </div>
+                `;
+                recentList.appendChild(item);
+            });
+        }
+
+        /**
+         * Actualiza la lista completa en la pantalla de Movimientos.
+         */
+        function updateFullMovementsList() {
+            const fullList = document.getElementById('full-movements-list');
+            fullList.innerHTML = ''; 
+
+            transactions.slice().reverse().forEach(txn => {
+                const isDebit = txn.type !== 'Depósito';
+                const sign = isDebit ? '-' : '+';
+                const color = isDebit ? 'var(--color-danger)' : 'var(--color-success)';
+                const totalAmount = txn.amount + txn.fee;
+                
+                const feeDisplay = txn.fee > 0 ? `<small style="color: var(--color-danger); margin-left: 5px;">Comisión: ${formatCurrency(txn.fee)}</small>` : '';
+
+                const li = document.createElement('li');
+                li.style.cssText = 'padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;';
+                li.innerHTML = `
+                    <div>
+                        <p style="font-weight: 600; margin-bottom: 3px;">${txn.type} ${isDebit ? `(Monto: ${formatCurrency(txn.amount)})` : ''}</p>
+                        <small style="color: #666;">${new Date(txn.date).toLocaleDateString()}</small>
+                        ${feeDisplay}
+                    </div>
+                    <span style="color: ${color}; font-weight: 600; font-size: 1.1em;">
+                        ${sign} ${formatCurrency(totalAmount)}
+                    </span>
+                `;
+                fullList.appendChild(li);
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // 1. Lógica de Login (simulada)
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const celular = document.getElementById('celular').value;
+            const password = document.getElementById('password').value;
+
+            if (celular.length !== 10 || password.length < 8) {
+                alert('⚠️ Error: Revise el celular (10 dígitos) y la contraseña (mín. 8 caracteres).');
+                return;
+            }
+            
+            showScreen('dashboard-screen');
+        });
+
+        // 2. Lógica de Retiro y Cálculo de Comisión
+        const montoRetiroInput = document.getElementById('monto-retiro');
+
+        montoRetiroInput.addEventListener('input', function() {
+            const monto = parseFloat(this.value) || 0;
+            const commission = monto * COMMISSION_RATE;
+            const totalDebit = monto + commission;
+
+            document.getElementById('fee-display').textContent = formatCurrency(commission);
+            document.getElementById('total-debit-display').textContent = formatCurrency(totalDebit);
+            
+            // Validación visual de saldo
+            const totalDebitDisplay = document.getElementById('total-debit-display');
+            if (totalDebit > userBalance) {
+                 totalDebitDisplay.style.color = 'var(--color-danger)';
+            } else {
+                 totalDebitDisplay.style.color = 'var(--color-primary)';
+            }
+        });
+
+        // 3. Confirmación de Retiro
+        document.getElementById('retirar-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const monto = parseFloat(montoRetiroInput.value);
+            const commission = monto * COMMISSION_RATE;
+            const totalDebit = monto + commission;
+
+            if (monto <= 0) {
+                alert('⛔ El monto a retirar debe ser mayor a cero.');
+                return;
+            }
+            
+            if (totalDebit > userBalance) {
+                alert('⛔ Saldo insuficiente. El total a debitar (Monto + Comisión) excede tu saldo.');
+                return;
+            }
+
+            if (confirm(`💸 ¿Deseas confirmar el retiro de ${formatCurrency(monto)}? Se debitará un total de ${formatCurrency(totalDebit)}.`)) {
+                userBalance -= totalDebit;
+
+                const newTxn = {
+                    type: 'Retiro',
+                    amount: monto,
+                    date: new Date().toISOString(),
+                    fee: commission,
+                    id: transactions.length + 1
+                };
+                transactions.push(newTxn);
+                
+                alert(`✅ Retiro Exitoso!\nNuevo Saldo: ${formatCurrency(userBalance)}`);
+                
+                showScreen('dashboard-screen');
+            }
+        });
+
+        // Inicialización: Carga la data inicial y asegura que se muestre la pantalla de login
+        document.addEventListener('DOMContentLoaded', () => {
+             updateDashboard();
+             showScreen('login-register-screen');
+        });
+
+    </script>
+</body>
+</html>

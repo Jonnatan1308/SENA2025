@@ -1,0 +1,102 @@
+/* Estilos Globales (Simulación de un archivo style.css) */
+:root {
+    --color-primary: #192DC2; /* Azul Seguro tu Plata */
+    --color-secondary: #FFFFFF; /* Blanco */
+    --color-text: #333333;
+    --color-success: #28a745;
+    --color-danger: #dc3545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9; /* Fondo muy claro para contraste */
+    min-height: 100vh;
+}
+
+/* Contenedor principal para simular la vista del móvil */
+.app-container {
+    max-width: 450px; /* Tamaño típico de móvil/tablet pequeño */
+    margin: 0 auto;
+    background-color: var(--color-secondary);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative; /* Para posicionar las vistas */
+}
+
+/* Estilos de botones primarios */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #14239e; /* Un tono más oscuro */
+}
+
+/* Estilos de inputs */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--color-primary);
+}
+
+/* Estilo para las "ventanas" de la aplicación */
+.app-screen {
+    padding: 20px;
+    display: none; /* Inicialmente todas ocultas, se muestra con JS */
+    min-height: 100vh;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    background-color: var(--color-secondary);
+}
+
+.app-screen.active {
+    display: block;
+    z-index: 10;
+}
+
+/* Encabezado fijo para Dashboard/Movimientos/Retiro */
+.header {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 15px 15px;
+    margin: -20px -20px 20px -20px; /* Extender al ancho */
+}
+.header h2 {
+    font-weight: 500;
+}
